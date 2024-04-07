@@ -11,32 +11,32 @@ public class Main {
 
 
         //LEGGO IL CSV E CREO LA MIA MAPPA DI UTENTI
-        Map<String, Map<String, Integer>> mappaUtenti = creazioneHashMap.creaMappaUtenti("primi50filmcon3recensioniperuser.csv");
+        Map<String, Map<String, Integer>> mappaUtenti = Utenti.creaMappaUtenti("primi50filmcon3recensioniperuser.csv");
         //System.out.println(mappaUtenti);
 
 
         //AGGIUNGO ARIANNA: L'UTENTE TEST A CUI CONSIGLIARE UN FILM
-        creazioneHashMap.aggiungiUser("Arianna", mappaUtenti);
-        creazioneHashMap.aggiungiRecensioneNuovoUtente("Arianna", mappaUtenti, "Btooom!", "4");
-        creazioneHashMap.aggiungiRecensioneNuovoUtente("Arianna", mappaUtenti, "Sword Art Online", "8");
-        creazioneHashMap.aggiungiRecensioneNuovoUtente("Arianna", mappaUtenti, "Highschool of the Dead", "3");
-        creazioneHashMap.aggiungiRecensioneNuovoUtente("Arianna", mappaUtenti, "K", "7");
-        creazioneHashMap.aggiungiRecensioneNuovoUtente("Arianna", mappaUtenti, "Fate/stay night", "2");
-        creazioneHashMap.aggiungiRecensioneNuovoUtente("Arianna", mappaUtenti, "Elfen Lied", "2");
+        Utenti.aggiungiUser("Arianna", mappaUtenti);
+        Utenti.aggiungiRecensioneNuovoUtente("Arianna", mappaUtenti, "Btooom!", "4");
+        Utenti.aggiungiRecensioneNuovoUtente("Arianna", mappaUtenti, "Sword Art Online", "8");
+        Utenti.aggiungiRecensioneNuovoUtente("Arianna", mappaUtenti, "Highschool of the Dead", "3");
+        Utenti.aggiungiRecensioneNuovoUtente("Arianna", mappaUtenti, "K", "7");
+        Utenti.aggiungiRecensioneNuovoUtente("Arianna", mappaUtenti, "Fate/stay night", "2");
+        Utenti.aggiungiRecensioneNuovoUtente("Arianna", mappaUtenti, "Elfen Lied", "2");
 
 
         //AGGIUNGO NUOVO UTENTE2 PER IL TEST:
         //HA FILM RECENSITI UGUALI AD ARIANNA + UNO CHE "ARIANNA" NON HA ANCORA RECENSITO.
         //se tutto funziona dovrà essere lui l'utente più simile all'utente "Arianna"
 
-        creazioneHashMap.aggiungiUser("Utente2", mappaUtenti);
-        creazioneHashMap.aggiungiRecensioneNuovoUtente("Utente2", mappaUtenti, "Btooom!", "4");
-        creazioneHashMap.aggiungiRecensioneNuovoUtente("Utente2", mappaUtenti, "Sword Art Online", "8");
-        creazioneHashMap.aggiungiRecensioneNuovoUtente("Utente2", mappaUtenti, "Highschool of the Dead", "3");
-        creazioneHashMap.aggiungiRecensioneNuovoUtente("Utente2", mappaUtenti, "K", "7");
-        creazioneHashMap.aggiungiRecensioneNuovoUtente("Utente2", mappaUtenti, "Fate/stay night", "2");
-        creazioneHashMap.aggiungiRecensioneNuovoUtente("Utente2", mappaUtenti, "Elfen Lied", "2");
-        creazioneHashMap.aggiungiRecensioneNuovoUtente("Utente2", mappaUtenti, "FilmTest1", "10"); //recensione alta
+        Utenti.aggiungiUser("Utente2", mappaUtenti);
+        Utenti.aggiungiRecensioneNuovoUtente("Utente2", mappaUtenti, "Btooom!", "4");
+        Utenti.aggiungiRecensioneNuovoUtente("Utente2", mappaUtenti, "Sword Art Online", "8");
+        Utenti.aggiungiRecensioneNuovoUtente("Utente2", mappaUtenti, "Highschool of the Dead", "3");
+        Utenti.aggiungiRecensioneNuovoUtente("Utente2", mappaUtenti, "K", "7");
+        Utenti.aggiungiRecensioneNuovoUtente("Utente2", mappaUtenti, "Fate/stay night", "2");
+        Utenti.aggiungiRecensioneNuovoUtente("Utente2", mappaUtenti, "Elfen Lied", "2");
+        Utenti.aggiungiRecensioneNuovoUtente("Utente2", mappaUtenti, "FilmTest1", "10"); //recensione alta
         //creazioneHashMap.aggiungiRecensioneNuovoUtente("Utente2", mappaUtenti, "FilmTest1", "2");       //recensione bassa
 
         //PER VEDERE COSA CAMBIA SE IL FILM DA CONSIGLIARE HA RECENSIONE BASSA O ALTA:
@@ -82,7 +82,7 @@ public class Main {
 
 
 
-        creazioneHashMap.consigliaAnime(mappaUtenti, "Arianna");
+        Utenti.consigliaFilm(mappaUtenti, "Arianna");
         //creazioneHashMap.consigliaAnime(mappaUtenti, "Utente2");
     }
 }

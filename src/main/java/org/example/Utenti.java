@@ -7,7 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-public class creazioneHashMap {
+public class Utenti {
 
     public static Map<String, Map<String, Integer>> creaMappaUtenti(String csvFile) throws IOException, CsvException {
         try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
@@ -62,7 +62,7 @@ public class creazioneHashMap {
     - utente 2: ha 3 film in comune con Arianna
     - utente 3: ha tutti i film in comune con Arianna
      */
-   public static Map<String, Map<String, Integer>> mapUserConMieiAnime (Map<String, Map<String, Integer>> mappaUtenti, String nuovoUser) {
+   public static Map<String, Map<String, Integer>> mapUserConMieiFilm(Map<String, Map<String, Integer>> mappaUtenti, String nuovoUser) {
        Map<String, Map<String, Integer>> userConMieiStessiFilm = new HashMap<>(); //nuova mappa in cui ci saranno solo gli utenti che hanno almeno un film in comune con me
 
        Map<String, Integer> recensioniArianna = mappaUtenti.get(nuovoUser); //ottengo l'insieme delle recensioni di Arianna
@@ -85,7 +85,7 @@ public class creazioneHashMap {
     /*A partire dalla mappa creata subito sopra (in cui gli utenti hanno almeno un film in comune con Arianna), creo
     una nuova mappa ancora più piccola in cui lascio soltanto gli utenti che hanno almeno 3 film in comune con Arianna.
     * */
-    public static Map<String, Map<String, Integer>> userConTreAnimeUgualiAiMiei(Map<String, Map<String, Integer>> mappaUserConMieRecensioni) {
+    public static Map<String, Map<String, Integer>> mapUserTreFilm(Map<String, Map<String, Integer>> mappaUserConMieRecensioni) {
         Map<String, Map<String, Integer>> userCon3AnimeUgualiAiMiei = new HashMap<>(); //nuovo hashmap di utenti che hanno almeno tre film recensiti in comune con Arianna
         for (Map.Entry<String, Map<String, Integer>> user : mappaUserConMieRecensioni.entrySet()) { //per ogni utente nella mappa di utenti che ha almeno un film in comune con Arianna
 
@@ -103,7 +103,7 @@ public class creazioneHashMap {
     di recensioni con almeno 3 film uguali ai miei PIU almeno un film che io non ho recensito.
     Lo faccio controllando che la mappa dell'utente in questione abbia più elementi della mappa dell'utente Arianna
      */
-    public static Map<String, Map<String, Integer>> userConTreAnimeUgualiAiMieiEAltri(Map<String, Map<String, Integer>> mappaUserConTreFilmComeMe, Map<String, Map<String, Integer>> mappaTotale) {
+    public static Map<String, Map<String, Integer>> mapUserTreFilmEPiu(Map<String, Map<String, Integer>> mappaUserConTreFilmComeMe, Map<String, Map<String, Integer>> mappaTotale) {
 
         Map<String, Map<String, Integer>> userCon3AnimeUgualiAiMieiAndMore = new HashMap<>(); //sarà la nuova mappa in cui inserisco gli utenti che hanno almeno tre film in comune con Arianna ma anche almeno un film che Arianna non ha visto
 
@@ -234,7 +234,7 @@ public class creazioneHashMap {
      */
 
 
-    public static String animeConsigliato(Map<String, Float> distanze, Map<String, Map<String, Integer>> mappaUserCon3AnimeUgualiAiMieiAndMore, Map<String, Map<String, Integer>> animeTotale, Map<String, Map<String, Integer>> utenticon3FilmComeMe, Map<String, Map<String, Integer>> utentiConStessaDIstanzaDaArianna, String userNuovo ) {
+    public static String filmConsigliato(Map<String, Float> distanze, Map<String, Map<String, Integer>> mappaUserCon3AnimeUgualiAiMieiAndMore, Map<String, Map<String, Integer>> animeTotale, Map<String, Map<String, Integer>> utenticon3FilmComeMe, Map<String, Map<String, Integer>> utentiConStessaDIstanzaDaArianna, String userNuovo ) {
 
         String userPiuSimile = trovaUtentePiuVicino(utenticon3FilmComeMe, utentiConStessaDIstanzaDaArianna); //applicando il metodo precedente, trovo l'utente più "vicino" ad Arianna
         Map<String, Integer> recensioniUserPiuSimile = mappaUserCon3AnimeUgualiAiMieiAndMore.get(userPiuSimile); //estraggo l'elenco dei film che questo utente Y ha recensito
@@ -331,14 +331,14 @@ public class creazioneHashMap {
 
 
     //metodo finale che racchiude tutti i metodi precedenti (non che faccia qualcosa in più rispetto a quelli precedenti, ma vabbe era bello)
-    public static void consigliaAnime(Map<String, Map<String, Integer>> totaleUtenti, String nuovoUser) {
-        Map<String, Map<String, Integer>> mappaConUserConMieiFilm = mapUserConMieiAnime(totaleUtenti, nuovoUser);
-        Map<String, Map<String, Integer>> mappaCon3FilmComeMe = userConTreAnimeUgualiAiMiei(mappaConUserConMieiFilm);
-        Map<String, Map<String, Integer>> mappaConPiudi3FilmComeMe = userConTreAnimeUgualiAiMieiEAltri(mappaCon3FilmComeMe, totaleUtenti);
+    public static void consigliaFilm(Map<String, Map<String, Integer>> totaleUtenti, String nuovoUser) {
+        Map<String, Map<String, Integer>> mappaConUserConMieiFilm = mapUserConMieiFilm(totaleUtenti, nuovoUser);
+        Map<String, Map<String, Integer>> mappaCon3FilmComeMe = mapUserTreFilm(mappaConUserConMieiFilm);
+        Map<String, Map<String, Integer>> mappaConPiudi3FilmComeMe = mapUserTreFilmEPiu(mappaCon3FilmComeMe, totaleUtenti);
         Map<String, Float> distanze = calcoloDistanzaDaUser(nuovoUser, mappaConPiudi3FilmComeMe, totaleUtenti);
         var mappaUserConStessaDistanza = trovaUtentiConDistanzaMinore(distanze, mappaConPiudi3FilmComeMe, mappaCon3FilmComeMe);
         String utentePiuVicino = trovaUtentePiuVicino(mappaCon3FilmComeMe, mappaUserConStessaDistanza);
-        String animeConsigliato = animeConsigliato(distanze, mappaConPiudi3FilmComeMe, totaleUtenti, mappaCon3FilmComeMe, mappaUserConStessaDistanza, nuovoUser);
+        String animeConsigliato = filmConsigliato(distanze, mappaConPiudi3FilmComeMe, totaleUtenti, mappaCon3FilmComeMe, mappaUserConStessaDistanza, nuovoUser);
     }
 
 
