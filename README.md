@@ -5,9 +5,9 @@ L'idea alla base del collaborative filtering è molto semplice:
 - prendo un utente di riferimento X, e comparo i voti dei suoi item con i voti degli altri utenti
 - trovo l'utente più simile a X e suggerisco a X un item che questo utente ha già votato, ma X ancora no.
 
-La struttura dati che ho utilizzato è una nested hashmap:
-HashMap <Utente, Hashmap <Film, Recensione>>
-La mappa esterna ha come chiave l'username e come valore una mappa interna che comprende le recensioni di tutti i film che tale utente ha guardato.
+La struttura dati che ho utilizzato è una nested hashmap:<br>
+HashMap <Utente, Hashmap <Film, Recensione>><br>
+La mappa esterna ha come chiave l'username e come valore una mappa interna che comprende le recensioni di tutti i film che tale utente ha guardato.<br>
 
 Si forma una struttura di questo tipo:  <br>
   <UtenteA,  <FilmA, 5; FilmB, 7; FilmX, 9>> <br>
